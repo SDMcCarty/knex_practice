@@ -1,11 +1,11 @@
-require('dotenv').config()
-const knex = require('knex')
+'use strict';
+require('dotenv').config();
+const knex = require('knex');
 
 const knexInstance = knex({
   client: 'pg',
-  connection: process.env.DB_URL
-})
-
+  connection: process.env.DB_URL,
+});
 
 // knexInstance
 //   .select('product_id', 'name', 'price', 'category')
@@ -16,14 +16,14 @@ const knexInstance = knex({
 //     console.log(result)
 //   })
 
-  // const qry = knexInstance
-  // .select('product_id', 'name', 'price', 'category')
-  // .from('amazong_products')
-  // .where({ name: 'Point of view gun' })
-  // .first()
-  // .toQuery()
+// const qry = knexInstance
+// .select('product_id', 'name', 'price', 'category')
+// .from('amazong_products')
+// .where({ name: 'Point of view gun' })
+// .first()
+// .toQuery()
 
-  // console.log(qry)
+// console.log(qry)
 
 // const searchTerm = 'holo'
 
@@ -40,39 +40,39 @@ function searchByProduceName(searchTerm) {
     .select('product_id', 'name', 'price', 'category')
     .from('amazong_products')
     .where('name', 'ILIKE', `%${searchTerm}`)
-    .then(result => {
-      console.log(result)
-    })
+    .then((result) => {
+      console.log(result);
+    });
 }
 
-searchByProduceName('holo')
+searchByProduceName('holo');
 
 function paginateProducts(page) {
-  const productsPerPage = 10
-  const offset = productsPerPage * (page -1)
+  const productsPerPage = 10;
+  const offset = productsPerPage * (page - 1);
   knexInstance
     .select('product_id', 'name', 'price', 'category')
     .from('amazong_products')
     .limit(productsPerPage)
     .offset(offset)
-    .then(result => {
-      console.log(result)
-    })
+    .then((result) => {
+      console.log(result);
+    });
 }
 
-paginateProducts(2)
+paginateProducts(2);
 
 function getProductsWithImages() {
   knexInstance
     .select('product_id', 'name', 'price', 'category')
     .from('amazong_products')
     .whereNotNull('image')
-    .then(result => {
-      console.log(result)
-    })
+    .then((result) => {
+      console.log(result);
+    });
 }
 
-getProductsWithImages()
+getProductsWithImages();
 
 function mostPopularVideosForDays(days) {
   knexInstance
@@ -89,9 +89,9 @@ function mostPopularVideosForDays(days) {
       { column: 'region', order: 'ASC' },
       { column: 'views', order: 'DESC' },
     ])
-    .then(result => {
-      console.log(result)
-    })
+    .then((result) => {
+      console.log(result);
+    });
 }
 
-mostPopularVideosForDays(30)
+mostPopularVideosForDays(30);
