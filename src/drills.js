@@ -33,5 +33,16 @@ function paginateList(pageNumber) {
     });
 }
 
+function addedAfter(daysAgo) {
+  db
+    .select('*')
+    .from('shopping_list')
+    .where('date_added', '>', db.raw(`now() - '?? days'::INTERVAL`, daysAgo))
+    .then(result => {
+      console.log(result)
+    });
+}
+
 searchShoppingList('wings');
 paginateList(5);
+addedAfter(1)
