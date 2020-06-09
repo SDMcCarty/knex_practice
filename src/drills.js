@@ -33,16 +33,15 @@ function paginateList(pageNumber) {
     });
 }
 
-function addedAfter(daysAgo) {
-  db
-    .select('*')
+function findCosts() {
+  db.select('*')
     .from('shopping_list')
-    .where('date_added', '>', db.raw(`now() - '?? days'::INTERVAL`, daysAgo))
-    .then(result => {
-      console.log(result)
+    .groupBy('category')
+    .count('price')
+    .then((result) => {
+      console.log(result);
     });
 }
 
 searchShoppingList('wings');
 paginateList(5);
-addedAfter(1)
