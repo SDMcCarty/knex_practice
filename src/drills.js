@@ -7,41 +7,50 @@ const db = knex({
   connection: process.env.DB_URL,
 });
 
-function searchShoppingList(searchTerm) {
-  /**
-   * SELECT *
-   * FROM shopping_list
-   * WHERE name ILIKE `%${searchTerm}%`
-   */
-  db.select('*')
-    .from('shopping_list')
-    .where('name', 'ILIKE', `%${searchTerm}%`)
-    .then((result) => {
-      console.log(result);
-    });
-}
+// function searchShoppingList(searchTerm) {
+//   /**
+//    * SELECT *
+//    * FROM shopping_list
+//    * WHERE name ILIKE `%${searchTerm}%`
+//    */
+//   db.select('*')
+//     .from('shopping_list')
+//     .where('name', 'ILIKE', `%${searchTerm}%`)
+//     .then((result) => {
+//       console.log(result);
+//     });
+// }
 
-function paginateList(pageNumber) {
-  const productsPerPage = 6;
-  const offset = productsPerPage * (pageNumber - 1);
-  db.select('*')
-    .from('shopping_list')
-    .limit(productsPerPage)
-    .offset(offset)
-    .then((result) => {
-      console.log(result);
-    });
-}
+// function paginateList(pageNumber) {
+//   const productsPerPage = 6;
+//   const offset = productsPerPage * (pageNumber - 1);
+//   db.select('*')
+//     .from('shopping_list')
+//     .limit(productsPerPage)
+//     .offset(offset)
+//     .then((result) => {
+//       console.log(result);
+//     });
+// }
 
 function findCosts() {
-  db.select('*')
+  db.select('category', db.raw('SUM(price)'))
     .from('shopping_list')
     .groupBy('category')
-    .count('price')
     .then((result) => {
       console.log(result);
     });
 }
 
-searchShoppingList('wings');
-paginateList(5);
+function totalCost() {
+  db.select('category', db.raw('SUM(price)'))
+    .from('shopping_list')
+    .groupBy('category')
+    .then(x => console.log(x))
+}
+
+// searchShoppingList('wings');
+// paginateList(5);
+
+findCosts();
+// totalCost();
