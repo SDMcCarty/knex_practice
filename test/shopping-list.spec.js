@@ -87,6 +87,26 @@ describe(`Shopping List Service object`, () => {
           expect(allItems).to.eql(expected)
         })
     })
+
+    it(`updateItem() updates an item from 'shopping_list`, () => {
+      const idOfItemToUpdate = 3
+      const newItemData = {
+        name: 'new name',
+        price: '300.99',
+        date_added: new Date(),
+        checked: true,
+      }
+      const originalItem = testItems[idOfItemToUpdate - 1];
+      return ShoppingListService.updateItem(db, idOfItemToUpdate, newItemData)
+        .then(() => ShoppingListService.getById(db, idOfItemToUpdate))
+        .then(item => {
+          expect(item).to.eql({
+            id: idOfItemToUpdate,
+            ...originalItem,
+            ...newItemData,
+          })
+        })
+    })
   })
 
   context(`Given 'shopping_list' has no data`, () => {
